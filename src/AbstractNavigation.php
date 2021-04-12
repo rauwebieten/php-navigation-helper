@@ -16,6 +16,11 @@ class AbstractNavigation
         return $this->children;
     }
 
+    public function hasChildren() :bool
+    {
+        return count($this->children);
+    }
+
     public function add(NavigationItem $navigationItem): self
     {
         $this->children[] = $navigationItem;
