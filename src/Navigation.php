@@ -13,7 +13,9 @@ class Navigation extends AbstractNavigation
                 return $navigationItem->getUrl() === $url;
             }
         );
-        $item->setActive(true);
+        if ($item) {
+            $item->setActive(true);
+        }
     }
 
     public function findActive(): ?NavigationItem
