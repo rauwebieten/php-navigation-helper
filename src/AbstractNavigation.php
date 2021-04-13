@@ -21,11 +21,18 @@ class AbstractNavigation
         return count($this->children);
     }
 
-    public function add(NavigationItem $navigationItem): self
+    public function addChildren(NavigationItem ...$navigationItems): self
     {
-        $this->children[] = $navigationItem;
-        $navigationItem->setParent($this);
+        foreach ($navigationItems as $navigationItem) {
+            $this->children[] = $navigationItem;
+            $navigationItem->setParent($this);
+        }
         return $this;
+    }
+
+    public function add(NavigationItem ...$navigationItems): self
+    {
+        return $this->addChildren(...$navigationItems);
     }
 
     public function getIterator(): \ArrayIterator

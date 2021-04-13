@@ -6,13 +6,17 @@ namespace RauweBieten\Navigation;
 
 class NavigationItem extends AbstractNavigation
 {
-    protected $parent;
-    protected $name;
-    protected $url;
-    protected $icon;
+    protected $parent = null;
+    protected $name = null;
+    protected $url = null;
+    protected $icon = null;
     protected $active = false;
 
-    public function __construct(string $url, string $name, string $icon = null) {
+    public function __construct(
+        string $url = null,
+        string $name = null,
+        string $icon = null
+    ) {
         $this->url = $url;
         $this->name = $name;
         $this->icon = $icon;
@@ -28,11 +32,29 @@ class NavigationItem extends AbstractNavigation
 
     /**
      * @param mixed $name
-     * @return NavigationItem
+     * @return $this
      */
     public function setName($name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIcon(): string
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param mixed $icon
+     * @return $this
+     */
+    public function setIcon(string $icon): self
+    {
+        $this->icon = $icon;
         return $this;
     }
 
@@ -46,7 +68,7 @@ class NavigationItem extends AbstractNavigation
 
     /**
      * @param mixed $url
-     * @return NavigationItem
+     * @return $this
      */
     public function setUrl($url): self
     {
@@ -54,18 +76,34 @@ class NavigationItem extends AbstractNavigation
         return $this;
     }
 
-    public function setParent(AbstractNavigation $navigation)
+    /**
+     * @param AbstractNavigation $navigation
+     * @return $this
+     */
+    public function setParent(AbstractNavigation $navigation) :self
     {
         $this->parent = $navigation;
+        return $this;
     }
 
+    /**
+     * @return AbstractNavigation|null
+     */
+    public function getParent(): ?AbstractNavigation
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @return array|NavigationItem[]
+     */
     public function getAncestors(): array
     {
         $ancestors = [];
-        if ($this->hasParent()) {
-            $parent = $this->getParent();
+        $parent = $this->getParent();
+        if ($parent) {
+            $ancestors[] = $parent;
             if ($parent instanceof NavigationItem) {
-                $ancestors[] = $parent;
                 $ancestors = array_merge($parent->getAncestors(), $ancestors);
             }
         }
@@ -73,17 +111,16 @@ class NavigationItem extends AbstractNavigation
         return $ancestors;
     }
 
-    public function getParent(): ?AbstractNavigation
+    public function getRoot(): ?AbstractNavigation
     {
-        return $this->parent;
+        $ancestors = $this->getAncestors();
+        if (count($ancestors)) {
+            return $ancestors[0];
+        }
+        return null;
     }
 
-    public function hasParent(): bool
-    {
-        return !empty($this->parent);
-    }
-
-    public function isActive(bool $active = true): bool
+    public function getActive(bool $active = true): bool
     {
         return $this->active === $active;
     }
@@ -97,7 +134,7 @@ class NavigationItem extends AbstractNavigation
     {
         $iterator = $this->getRecursiveIterator();
         foreach ($iterator as $navigationItem) {
-            if ($navigationItem->isActive()) {
+            if ($navigationItem->getActive()) {
                 return true;
             }
         }

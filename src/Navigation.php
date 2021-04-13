@@ -22,7 +22,7 @@ class Navigation extends AbstractNavigation
     {
         return $this->findOneBy(
             function (NavigationItem $navigationItem) {
-                return $navigationItem->isActive();
+                return $navigationItem->getActive();
             }
         );
     }

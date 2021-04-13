@@ -10,19 +10,19 @@ require_once __DIR__ . '/vendor/autoload.php';
 $navigation = new Navigation();
 
 $dashboard = new NavigationItem('/','Dashboard');
-$navigation->add($dashboard);
+$navigation->addChildren($dashboard);
 
 $crm = new NavigationItem('/crm','CRM');
-$navigation->add($crm);
+$navigation->addChildren($crm);
 
 $contacts = new NavigationItem('/crm/contacts','Contacts');
-$crm->add($contacts);
+$crm->addChildren($contacts);
 
 $customers = new NavigationItem('/crm/customers','Customers');
-$crm->add($customers);
+$crm->addChildren($customers);
 
 $newCustomers = new NavigationItem('/crm/customers/new','New customers');
-$customers->add($newCustomers);
+$customers->addChildren($newCustomers);
 
 $navigation->setActiveItemsByUrl('/crm/customers/new');
 
@@ -35,7 +35,7 @@ foreach ($iterator as $navigationItem) {
     if ($navigationItem->hasActiveChild()) {
         print " -- active-path";
     }
-    if ($navigationItem->isActive()) {
+    if ($navigationItem->getActive()) {
         print " -- active";
     }
     print "\n";
