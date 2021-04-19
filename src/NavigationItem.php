@@ -102,8 +102,8 @@ class NavigationItem extends AbstractNavigation
         $ancestors = [];
         $parent = $this->getParent();
         if ($parent) {
-            $ancestors[] = $parent;
             if ($parent instanceof NavigationItem) {
+                $ancestors[] = $parent;
                 $ancestors = array_merge($parent->getAncestors(), $ancestors);
             }
         }
