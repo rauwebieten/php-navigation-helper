@@ -25,7 +25,7 @@ class NavigationItem extends AbstractNavigation
     /**
      * @return mixed
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -43,7 +43,7 @@ class NavigationItem extends AbstractNavigation
     /**
      * @return mixed
      */
-    public function getIcon(): string
+    public function getIcon(): ?string
     {
         return $this->icon;
     }
@@ -61,7 +61,7 @@ class NavigationItem extends AbstractNavigation
     /**
      * @return mixed
      */
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }
